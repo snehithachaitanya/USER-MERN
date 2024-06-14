@@ -19,6 +19,16 @@ app.get("/users", async (req, res) => {
   }
 });
 
+app.post("/users", async (req, res) => {
+  const user = new users(req.body);
+  try {
+    const savedUser = await user.save();
+    res.json(savedUser);
+  } catch (err) {
+    res.json(err);
+  }
+});
+
 app.listen(PORT, () => {
     console.log("server is running",{PORT});
 });
