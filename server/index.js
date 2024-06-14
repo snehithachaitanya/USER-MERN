@@ -19,6 +19,31 @@ app.get("/users", async (req, res) => {
   }
 });
 
+app.post("/users", async (req, res) => {
+  const user = new users(req.body);
+  try {
+    const savedUser = await user.save();
+    res.json(savedUser);
+  } catch (err) {
+    res.json(err);
+  }
+});
+
+app.put("/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, age, username } = req.body;
+    const user = await users.findById(id);
+    user.name = name;
+    user.age = age;
+    user.username = username;
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    res.json(err);
+  }  
+})
+
 app.delete("/users/:id", async (req, res) => {
   try {
     const data = await users.findByIdAndDelete(req.params.id);
