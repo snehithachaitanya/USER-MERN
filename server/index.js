@@ -19,6 +19,21 @@ app.get("/users", async (req, res) => {
   }
 });
 
+app.put("/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, age, username } = req.body;
+    const user = await users.findById(id);
+    user.name = name;
+    user.age = age;
+    user.username = username;
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    res.json(err);
+  }  
+})
+
 app.listen(PORT, () => {
     console.log("server is running",{PORT});
 });
